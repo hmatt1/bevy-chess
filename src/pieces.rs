@@ -33,6 +33,7 @@ pub fn create_pieces(
         white_material.clone(),
         rook_handle.clone(),
         Vec3::new(0., 0., 0.),
+        (0,0)
     );
     spawn_knight(
         &mut commands,
@@ -280,13 +281,20 @@ pub fn spawn_bishop(
 pub fn spawn_rook(
     commands: &mut Commands,
     material: Handle<StandardMaterial>,
+    piece_color: PieceColor,
     mesh: Handle<Mesh>,
-    position: Vec3,
+    position: (u8, u8),
 ) {
     commands
         .spawn(PbrComponents {
-            transform: Transform::from_translation(position),
+            transform: Transform::from_translation(Vec3::new(position.0 as f32, 0., position.1 as f32)),
             ..Default::default()
+        })
+        .with(Piece {
+            color: piece_color,
+            piece_type: PieceType::Rook,
+            x: position.0,
+            y: position.1
         })
         .with_children(|parent| {
             parent.spawn(PbrComponents {
@@ -325,4 +333,29 @@ pub fn spawn_pawn(
                 ..Default::default()
             });
         });
+}
+
+#[derive(Clone, Copy, PartialEq)]
+enum PieceColor {
+    White,
+    Black,
+}
+
+#[derive(Clone, Copy, PartialEq)]
+enum PieceType {
+    King,
+    Queen,
+    Bishop,
+    Knight,
+    Rook,
+    Pawn,
+}
+
+#[derive(Clone, Copy)]
+struct Piece {
+    pub color: PieceColor,
+    pub piece_type: PieceType,
+    // Current position
+    pub x: u8,
+    pub y: u8,
 }
