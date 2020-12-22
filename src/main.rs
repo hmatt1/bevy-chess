@@ -1,5 +1,6 @@
 mod pieces;
 mod board;
+mod my_colors;
 
 use bevy::prelude::*;
 use bevy_mod_picking::*;

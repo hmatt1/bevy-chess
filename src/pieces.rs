@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use crate::my_colors::*;
 
 pub fn create_pieces(
     mut commands: Commands,
@@ -24,8 +25,8 @@ pub fn create_pieces(
         asset_server.load("pieces.glb#Mesh7/Primitive0");
 
     // Add some materials
-    let white_material = materials.add(Color::rgb(0.9, 1.0, 0.9).into());
-    let black_material = materials.add(Color::rgb(0., 0.2, 0.2).into());
+    let white_material = materials.add(white().into());
+    let black_material = materials.add(black().into());
 
     spawn_rook(
         &mut commands,
